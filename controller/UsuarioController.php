@@ -160,6 +160,7 @@ function processarLogin($pdo)
             }
             $_SESSION['usuario_id'] = $usuarioLogado['id'];
             $_SESSION['usuario_nome'] = $usuarioLogado['nome'];
+            $_SESSION['usuario_localizacao'] = $usuarioLogado['localizacao'];
             header("Location: /SkillMap/view/dashboard.php");
             exit();
         } else {

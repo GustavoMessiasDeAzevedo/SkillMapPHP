@@ -32,7 +32,7 @@ $habilidadesAtuais = $habilidadeRepository->buscarIdsPorUsuario((int)$idDaSessao
 
 <body class="dashboard-body">
     <nav class="navbar">
-        <a href="perfil.php?id=<?= $usuario['id'] ?>" class="btn-back">⬅ Cancelar e Voltar</a>
+        <a href="dashboard.php" class="btn-back">⬅ Cancelar e Voltar</a>
     </nav>
 
     <main class="content-wrapper">

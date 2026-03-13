@@ -32,7 +32,7 @@ class UsuarioRepository{
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function listarUsuario($termo = null){
+    public function listarUsuario($termo = null, $minhaLocalizacao = null){
         $sql = "SELECT 
                 u.id, 
                 u.nome, 
@@ -45,11 +45,18 @@ class UsuarioRepository{
             GROUP BY u.id";
         if($termo){
             $sql .= " HAVING habilidades LIKE :termo";
-
-            $stmt = $this->pdo->prepare($sql);
-            $stmt->bindValue(':termo', '%' . $termo . '%');
+        }
+        if($minhaLocalizacao){
+            $sql .= " ORDER BY (u.localizacao = :minha_localizacao) DESC, u.nome ASC";
         }else{
-            $stmt = $this->pdo->prepare($sql);
+            $sql .= " ORDER BY u.nome ASC";
+        }
+        $stmt = $this->pdo->prepare($sql);
+        if($termo){
+            $stmt->bindValue(':termo', '%'.$termo.'%');
+        }
+        if($minhaLocalizacao){
+            $stmt->bindValue(':minha_localizacao', trim($minhaLocalizacao));
         }
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);

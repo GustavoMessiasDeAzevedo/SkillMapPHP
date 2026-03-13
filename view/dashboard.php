@@ -9,7 +9,8 @@ require_once "../ConexaoDB/conexaoDB.php";
 require_once "../repository/UsuarioRepository.php";
 $termo = (isset($_GET['termo']) ? $_GET['termo'] : null);
 $usuarioRepository = new UsuarioRepository($pdo);
-$usuarios = $usuarioRepository->listarUsuario($termo);
+$usuarios = $usuarioRepository->listarUsuario($termo, $_SESSION['usuario_localizacao']);
+
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
