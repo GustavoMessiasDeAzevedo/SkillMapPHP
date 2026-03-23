@@ -31,6 +31,7 @@ Repository Pattern: A lógica de acesso ao banco de dados é isolada da lógica 
 
 Environment Variables: Proteção de credenciais sensíveis (SMTP/Banco) através de arquivos de configuração externos (config.php).
 
+
 SQL Seguro: Todas as consultas utilizam PDO com Prepared Statements para anular riscos de SQL Injection.
 
 📁 Estrutura de Pastas
