@@ -24,6 +24,7 @@ class EmailService{
             $mail->Subject = "Recuperação de Senha";
             $mail->Body = "Olá você solicitou a troca de senha, clique no link abaixo para redefini-la: <br>
                           <a href = 'http://localhost/SkillMap/view/AlterarSenha.php?token=$token'>Redefinir Agora</a>";
+                          
             $mail->send();
             return true;
         }catch(Exception $e){

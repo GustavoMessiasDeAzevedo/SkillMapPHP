@@ -12,6 +12,7 @@ class Usuario {
         public string $nome = '',
         public string $email = '',
         public string $localizacao = ''
+        
     ) {}
 
     // --- MÉTODOS DE LÓGICA (Mantemos igual) ---
