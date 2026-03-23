@@ -164,10 +164,10 @@ function processarLogin($pdo)
             header("Location: /SkillMap/view/dashboard.php");
             exit();
         } else {
-            echo "Email ou senha incorretos, tente novamente!";
+            $_SESSION['msErroLogin'] = "Usuário não encontrado ou não existe";
+            header("Location: ../index.php?erro=usuario-nao-encontrado");
+            exit();
         }
-    } else {
-        echo "Usuário não encontrado";
     }
 }
 

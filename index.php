@@ -24,6 +24,20 @@ session_start();
         <?php unset($_SESSION['mensagem']); // Limpa para não aparecer de novo no refresh 
         ?>
     <?php endif; ?>
+
+    <?php if (isset($_SESSION['msErroLogin']) && ($_GET['erro'] ?? '') === 'usuario-nao-encontrado'): ?>
+        <div id="alerta-sucesso" class="alerta-flutuante alerta-erro">
+            <div class="alerta-content">
+                <span>⚠️</span>
+                <p><?= htmlspecialchars($_SESSION['msErroLogin'])?></p>
+            </div>
+            <div class="progress-bar" style="background: #64748b;"></div>
+        </div>
+        <?php unset($_SESSION['msErroLogin']); ?>
+    <?php endif; ?>
+
+
+    
     <?php if (isset($_GET['msg']) && $_GET['msg'] === 'saiu'): ?>
         <div id="alerta-sucesso" class="alerta-flutuante" style="border-left-color: #64748b;">
             <div class="alerta-content">
@@ -32,8 +46,10 @@ session_start();
             </div>
             <div class="progress-bar" style="background: #64748b;"></div>
         </div>
+        <?php unset($_SESSION['msg']); ?>
     <?php endif; ?>
-    <?php if(isset($_SESSION['ms'])):?>
+
+    <?php if (isset($_SESSION['ms'])): ?>
         <div id="alerta-sucesso" class="alerta-flutuante alerta-erro">
             <div class="alerta-content">
                 <span>🛑</span>
@@ -41,8 +57,9 @@ session_start();
             </div>
             <div class="progress-bar" style="background: #64748b;"></div>
         </div>
-    <?php unset($_SESSION['ms']); ?>
+        <?php unset($_SESSION['ms']); ?>
     <?php endif; ?>
+
     <?php if (isset($_SESSION['msEmail'])): ?>
         <div id="alerta-sucesso" class="alerta-flutuante alerta-cadastro">
             <div class="alerta-content">
@@ -63,7 +80,7 @@ session_start();
             </div>
             <div class="progress-bar"></div>
         </div>
-        <?php unset($_SESSION['msSenha']); // Limpa para não aparecer de novo no refresh 
+        <?php unset($_SESSION['msSenha']); // Limpa para não aparecer de novo no refresh s
         ?>
     <?php endif; ?>
     <div class="card">
@@ -79,6 +96,7 @@ session_start();
                 unset($_SESSION['mensagem']);
                 ?>
             </div>
+            <?php unset($_SESSION['mensagem']); ?>
         <?php endif; ?>
         <a href="view/Login.php" class="btn btn-primary">Login</a>
         <a href="view/Cadastro.php" class="btn btn-outline">Cadastre-se</a>

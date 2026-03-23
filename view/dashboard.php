@@ -39,6 +39,7 @@ $usuarios = $usuarioRepository->listarUsuario($termo, $_SESSION['usuario_localiz
                         <span class="icon" style="font-size: 24px;">💬</span>
                         <span id="badge-mensagens" class="badge">0</span>
                     </div>
+                    <a href="dashboard.php" class="btn-home">Tela inicial</a> 🏠
                 <?php endif; ?>
             </div>
 
@@ -75,7 +76,9 @@ $usuarios = $usuarioRepository->listarUsuario($termo, $_SESSION['usuario_localiz
                             <?php
                             $skill = explode(',', $user['habilidades']);
                             foreach ($skill as $skills): ?>
-                                <span class="tag"><?php echo trim(htmlspecialchars($skills)); ?></span>
+                                <a href="dashboard.php?termo=<?php echo urlencode(trim($skills)) ?>" class="tag">
+                                    <?php echo htmlspecialchars(trim($skills)); ?>
+                                </a>
                             <?php endforeach; ?>
                         </div>
                     </div>
