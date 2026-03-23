@@ -12,11 +12,11 @@ class EmailService{
         $mail = new PHPMailer(true);
         try{
             $mail->isSMTP();
-            $mail->Host = 'smtp.gmail.com';
+            $mail->Host = SMTP_HOST;
             $mail->SMTPAuth = true;
-            $mail->Username = "skillmap.projeto@gmail.com";
-            $mail->Password = "cbxlovqafjjyerdv";
-            $mail->Port = 587;
+            $mail->Username = SMTP_USER;
+            $mail->Password = SMTP_PASS;
+            $mail->Port = SMTP_PORT;
 
             $mail->setFrom("sistema@skillmap.com", "SkillMap");
             $mail->addAddress($email);
@@ -24,7 +24,7 @@ class EmailService{
             $mail->Subject = "Recuperação de Senha";
             $mail->Body = "Olá você solicitou a troca de senha, clique no link abaixo para redefini-la: <br>
                           <a href = 'http://localhost/SkillMap/view/AlterarSenha.php?token=$token'>Redefinir Agora</a>";
-                          
+
             $mail->send();
             return true;
         }catch(Exception $e){

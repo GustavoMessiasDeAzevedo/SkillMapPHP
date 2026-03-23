@@ -1,77 +1,79 @@
-# 🚀 SkillMap - Gerenciador de Talentos e Habilidades
+🚀 SkillMap - Sistema de Gerenciamento de Talentos
+📌 Sobre o Projeto
+O SkillMap é uma plataforma Fullstack desenvolvida para facilitar o mapeamento de competências técnicas dentro de uma organização ou comunidade. O sistema permite localizar profissionais através de suas habilidades, promovendo conexões diretas e visualização de dados em tempo real através de um dashboard interativo.
 
-## 📌 Introdução
+✨ Funcionalidades Principais
+🔍 Dashboard & Busca Dinâmica
+Filtro por Tags: Cada habilidade no perfil do usuário é um link funcional. Ao clicar, o sistema filtra automaticamente todos os profissionais com aquela expertise.
 
-O **SkillMap** é um sistema de gerenciamento de perfis profissionais desenvolvido para mapear competências de usuários.  
+Pesquisa Global: Barra de busca inteligente via GET que processa termos e retorna resultados instantâneos.
 
-Com ele, é possível:
+Reset de Filtros: Botão "Tela Inicial" integrado para limpeza rápida de parâmetros de busca.
 
-- Cadastrar profissionais  
-- Vincular múltiplas habilidades técnicas  
-- Gerenciar informações em tempo real  
-- Utilizar uma interface moderna e responsiva  
+🔐 Segurança & Autenticação
+Proteção de Senhas: Implementação de password_hash e password_verify (BCrypt).
 
-O projeto foi construído com foco em organização de código, segurança e experiência do usuário.
+Recuperação de Senha: Sistema via e-mail utilizando PHPMailer e tokens de verificação temporários.
 
----
+Gestão de Sessão: Controle de acesso por níveis e proteção contra acessos indevidos via URL.
 
-## ✨ Funcionalidades
+📧 Comunicação & UX
+Sistema de Mensagens: Banco de dados preparado para troca de mensagens entre usuários.
 
-### 🔐 Autenticação Completa
-- Sistema de login seguro  
-- Proteção de sessões  
-- Controle de acesso  
+Alertas Flutuantes: Feedback visual (Sucesso/Erro/Logout) com temporizadores e barras de progresso em CSS.
 
-### 👤 CRUD de Usuários
-- Cadastro de perfis  
-- Edição de informações  
-- Visualização de usuários  
-- Exclusão (Delete) de registros  
+UI Moderna: Interface otimizada para Dark Mode, focada em legibilidade e experiência do usuário (UX).
 
-### 🧩 Gestão de Habilidades (N:N)
-- Vinculação dinâmica de múltiplas habilidades a um único usuário  
-- Uso de tabelas associativas (pivot) no banco de dados  
-- Relacionamento Muitos-para-Muitos (N:N)  
+🛡️ Boas Práticas & Arquitetura
+O projeto segue padrões de mercado para garantir escalabilidade e segurança:
 
-### 💬 Interface Interativa
-- Notificações flutuantes  
-- Barra de progresso para feedback visual  
-- Mensagens de sucesso, erro e logout  
+Repository Pattern: A lógica de acesso ao banco de dados é isolada da lógica de negócio.
 
-### 🛡️ Segurança
-- Uso de `password_hash` para armazenamento seguro de senhas  
-- Proteção contra acessos indevidos via URL  
-- Conexões seguras com PDO  
+Environment Variables: Proteção de credenciais sensíveis (SMTP/Banco) através de arquivos de configuração externos (config.php).
 
----
+SQL Seguro: Todas as consultas utilizam PDO com Prepared Statements para anular riscos de SQL Injection.
 
-## 🛠️ Tecnologias Utilizadas
+📁 Estrutura de Pastas
+Plaintext
+SkillMap/
+├── database.sql       # Script completo para criação do banco
+├── config.php         # Configurações sensíveis (Ignorado no Git)
+├── .gitignore         # Filtro de arquivos para o repositório
+├── controller/        # Lógica de negócio e rotas
+├── model/             # Classes de serviço e Repositories
+├── view/              # Interfaces (HTML/CSS/JS)
+└── Includes/          # Dependências externas (PHPMailer, etc)
+🛠️ Tecnologias Utilizadas
+Linguagem: PHP 8.x
 
-### Backend
-- PHP 8.x
+Banco de Dados: MySQL (MariaDB)
 
-### Banco de Dados
-- MySQL  
-- PDO para conexões seguras  
+Protocolo: SMTP (Gmail API) para disparos de e-mail.
 
-### Frontend
-- HTML5  
-- CSS3 (Modern UI)  
-- JavaScript Vanilla  
+Estilização: CSS3 (Flexbox/Grid/Transitions)
 
----
+🚀 Como Instalar e Rodar
+Clone o Repositório:
 
-## 🏗️ Arquitetura
-
-O projeto segue boas práticas de organização:
-
-- **Padrão Repository** → Separação da lógica de acesso a dados  
-- **Controller** → Responsável pela lógica de negócio  
-- Separação clara entre backend e frontend  
-
----
-
-## 🚀 Instalação
-
-Clone o repositório:
+Bash
 git clone https://github.com/GustavoMessiasDeAzevedo/SkillMapWEB.git
+Configure o Banco de Dados:
+
+Importe o arquivo database.sql no seu PHPMyAdmin.
+
+Configure as Credenciais:
+
+Crie um arquivo config.php na raiz baseado no config.example.php.
+
+Insira suas credenciais de e-mail e banco de dados.
+
+Acesse o Projeto:
+
+Mova a pasta para o seu servidor local (XAMPP/WAMP) e acesse http://localhost/SkillMap.
+
+📝 Próximos Passos (Roadmap)
+[ ] Implementação de Chat em Tempo Real.
+
+[ ] Upload de fotos de perfil com redimensionamento dinâmico.
+
+[ ] Geração de relatórios de competências em PDF.
