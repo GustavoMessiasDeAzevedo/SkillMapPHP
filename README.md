@@ -141,6 +141,15 @@ http://localhost/SkillMap
 
 ---
 
+## 🎓 Contexto Acadêmico
+
+Projeto desenvolvido como parte do **Projeto Integrador** do curso **Técnico em Desenvolvimento de Sistemas - SENAC**.
+
+**Desenvolvedor Principal:** Gustavo Azevedo
+**Colaboradores:** Maycon Souza e Paulo Souza (Pesquisa e Requisitos)
+
+---
+
 ## 🤝 Contribuição
 
 Contribuições são bem-vindas!
@@ -152,12 +161,6 @@ Sinta-se à vontade para abrir uma *issue* ou enviar um *pull request*.
 
 Este projeto está sob a licença MIT.
 Sinta-se livre para usar, modificar e distribuir.
-
----
-
-## 👨‍💻 Autor
-
-Desenvolvido por **Gustavo Messias de Azevedo**
 
 ---
 
