@@ -19,6 +19,7 @@ CREATE TABLE `habilidades` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+
 -- 3. Tabela Associativa (Relacionamento N:N)
 CREATE TABLE `habilidade_usuario` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
