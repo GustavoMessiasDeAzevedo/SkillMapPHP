@@ -1,7 +1,7 @@
 <?php
 
-require_once "../ConexaoDB/conexaoDB.php";
-require_once "../repository/MensagemRepository.php";
+require_once dirname(__DIR__) . '/ConexaoDB/conexaoDB.php';
+require_once dirname(__DIR__) . '/repository/MensagemRepository.php';
 session_start();
 
 header('Content-Type: application/json');

@@ -1,4 +1,11 @@
+let meuIdLogado;
+let socket;
+
 document.addEventListener("DOMContentLoaded", () => {
+  meuIdLogado = document.getElementById("meu_id")?.value;
+  console.log("🆔 Seu ID carregado:", meuIdLogado);
+  conectarSocket();
+
   const alerta = document.getElementById("alerta-sucesso");
 
   if (alerta) {
@@ -12,7 +19,51 @@ document.addEventListener("DOMContentLoaded", () => {
       }, 500);
     }, 4000);
   }
+
+  if (document.getElementById("chat-box")) carregarMensagens();
+  verificarNotificacoes();
 });
+
+function conectarSocket() {
+  socket = new WebSocket("ws://localhost:8888");
+
+  socket.onopen = () => {
+    console.log("✅ Conectado ao servidor de Chat!");
+    if (meuIdLogado) {
+      socket.send(
+        JSON.stringify({
+          type: "login",
+          usuario_id: meuIdLogado,
+        }),
+      );
+    }
+  };
+
+  socket.onmessage = (event) => {
+    const data = JSON.parse(event.data);
+    console.log("📩 Mensagem recebida via Socket:", data); // Isso é vital para testar!
+
+    const chatBox = document.getElementById("chat-box");
+    // O destinatário de QUEM RECEBE é o remetente de QUEM ENVIOU
+    const conversaAbertaCom = document.getElementById("destinatario_id")?.value;
+
+    if (chatBox && String(data.remetente_id) === String(conversaAbertaCom)) {
+      chatBox.innerHTML += `<div class="mensagem msg-outros"><p>${data.conteudo}</p></div>`;
+      chatBox.scrollTop = chatBox.scrollHeight;
+    } else {
+      console.log(
+        "🙈 Mensagem ignorada: você não está com o chat desse usuário aberto.",
+      );
+    }
+
+    verificarNotificacoes();
+  };
+
+  socket.onclose = () => {
+    console.warn("⚠️ Conexão perdida. Tentando reconectar em 3s...");
+    setTimeout(conectarSocket, 3000);
+  };
+}
 
 function confirmarExclusao(id) {
   if (confirm("Tem certeza que deseja realizar a exclusão da conta?")) {
@@ -20,8 +71,6 @@ function confirmarExclusao(id) {
       "../controller/UsuarioController.php?acao=excluir&id=" + id;
   }
 }
-
-const meuIdLogado = document.getElementById("meu_id")?.value;
 
 function carregarMensagens() {
   const destinatarioId = document.getElementById("destinatario_id")?.value;
@@ -51,7 +100,15 @@ function enviarMensagem() {
   const destinatarioId = document.getElementById("destinatario_id").value;
   const conteudo = input.value.trim();
 
-  if (conteudo === "") return;
+  if (conteudo === "" || !socket) return;
+
+  const payload = {
+    remetente_id: meuIdLogado,
+    destinatario_id: destinatarioId,
+    conteudo: conteudo,
+  };
+  console.log("Tentando enviar via socket:", payload);
+  socket.send(JSON.stringify(payload));
 
   const formData = new FormData();
   formData.append("destinatario_id", destinatarioId);
@@ -64,15 +121,12 @@ function enviarMensagem() {
     .then((response) => response.json())
     .then((resultado) => {
       if (resultado.success) {
+        const chatBox = document.getElementById("chat-box");
+        chatBox.innerHTML += `<div class="mensagem minha-msg"><p>${conteudo}</p></div>`;
+        chatBox.scrollTop = chatBox.scrollHeight;
         input.value = "";
-        carregarMensagens();
       }
     });
-}
-
-if (document.getElementById("chat-box")) {
-  carregarMensagens();
-  setInterval(carregarMensagens, 2000);
 }
 
 function verificarNotificacoes() {
@@ -87,8 +141,6 @@ function verificarNotificacoes() {
           badge.innerText = data.total;
           badge.style.display = "flex";
 
-          // --- O LUGAR É AQUI! ---
-          // Se o PHP enviou a lista de quem mandou, a gente coloca no "title"
           if (data.quem_mandou && data.quem_mandou.length > 0) {
             const nomes = data.quem_mandou.map((r) => r.nome).join(", ");
             badge.title = "Mensagens de: " + nomes;
@@ -103,19 +155,3 @@ function verificarNotificacoes() {
       }
     });
 }
-
-// ÚNICO BLOCO DE CONTROLE: Centraliza tudo que roda ao carregar a página
-document.addEventListener("DOMContentLoaded", () => {
-  // 1. Se estiver no Perfil (Chat)
-  if (document.getElementById("chat-box")) {
-    carregarMensagens();
-    setInterval(carregarMensagens, 3000);
-  }
-
-  // 2. Se estiver na Dashboard
-  if (window.location.pathname.includes("dashboard.php")) {
-    console.log("Monitorando notificações...");
-    verificarNotificacoes();
-    setInterval(verificarNotificacoes, 5000);
-  }
-});

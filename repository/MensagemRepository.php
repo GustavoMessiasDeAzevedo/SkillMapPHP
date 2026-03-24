@@ -1,7 +1,7 @@
 <?php
 
-require_once "../ConexaoDB/conexaoDB.php";
-require_once "../model/Mensagem.php";
+require_once dirname(__DIR__) . '/ConexaoDB/conexaoDB.php';
+require_once dirname(__DIR__) . "/model/Mensagem.php";
 
 class MensagemRepository
 {
@@ -12,13 +12,13 @@ class MensagemRepository
         $this->pdo = $pdo;
     }
 
-    public function enviarMensagem($remetenteId, $destinatarioId, $conteudo)
+    public function enviarMensagem($remetente_id, $destinatario_id, $conteudo)
     {
-        $sql = "INSERT INTO mensagens (id_remetente, id_destinatario, conteudo) VALUES (:remetente, :destinatario, :conteudo)";
+        $sql = "INSERT INTO mensagens (remetente_id, destinatario_id, conteudo) VALUES (:remetente, :destinatario, :conteudo)";
 
         $stmtMensagem = $this->pdo->prepare($sql);
-        $stmtMensagem->bindValue(':remetente', $remetenteId);
-        $stmtMensagem->bindValue(':destinatario', $destinatarioId);
+        $stmtMensagem->bindValue(':remetente', $remetente_id);
+        $stmtMensagem->bindValue(':destinatario', $destinatario_id);
         $stmtMensagem->bindValue(':conteudo', $conteudo);
 
         return $stmtMensagem->execute();
@@ -27,8 +27,8 @@ class MensagemRepository
     public function buscarConversa($usuario1, $usuario2)
     {
         $sql = "SELECT * FROM mensagens 
-                WHERE (id_remetente = :u1 AND id_destinatario = :u2)
-                   OR (id_remetente = :u2 AND id_destinatario = :u1)
+                WHERE (remetente_id = :u1 AND destinatario_id = :u2)
+                   OR (remetente_id = :u2 AND destinatario_id = :u1)
                 ORDER BY data_envio ASC";
 
         $stmt = $this->pdo->prepare($sql);
@@ -40,7 +40,7 @@ class MensagemRepository
     public function contarMensagensNaoLidas($meuId)
     {
         $sql = "SELECT COUNT(*) as total FROM mensagens 
-            WHERE id_destinatario = :meuId AND lida = FALSE";
+            WHERE destinatario_id = :meuId AND lida = FALSE";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute([':meuId' => $meuId]);
         $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -50,7 +50,7 @@ class MensagemRepository
     public function marcarComoLidas($meuId, $destinatarioId)
     {
         $sql = "UPDATE mensagens SET lida = TRUE 
-            WHERE id_remetente = :destinatarioId AND id_destinatario = :meuId";
+            WHERE remetente_id = :destinatarioId AND destinatario_id = :meuId";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute([':meuId' => $meuId, ':destinatarioId' => $destinatarioId]);
     }
@@ -60,8 +60,8 @@ class MensagemRepository
         // Faz um JOIN com a tabela de usuários para pegar o nome de quem enviou
         $sql = "SELECT DISTINCT u.nome, u.id 
             FROM mensagens m
-            JOIN usuarios u ON m.id_remetente = u.id
-            WHERE m.id_destinatario = :meuId AND m.lida = 0";
+            JOIN usuarios u ON m.remetente_id = u.id
+            WHERE m.destinatario_id = :meuId AND m.lida = 0";
 
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute([':meuId' => $meuId]);

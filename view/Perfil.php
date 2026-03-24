@@ -20,6 +20,7 @@ $usuario = $usuarioRepository->buscarPorId($id_usuario);
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="../assets/css/style.css?v=<?php echo time(); ?>">
+    <input type="hidden" id="meu_id" value="<?php echo $_SESSION['usuario_id']; ?>">
     <script src="../assets/js/script.js"></script>
     <title>Perfil de <?php echo htmlspecialchars($usuario['nome']); ?></title>
 </head>
