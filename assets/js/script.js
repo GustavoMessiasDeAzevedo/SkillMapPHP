@@ -57,7 +57,7 @@ function enviarMensagem() {
   formData.append("destinatario_id", destinatarioId);
   formData.append("conteudo", conteudo);
 
-  fetch("/SkillMap/controller/enviarMensagem.php", {
+  fetch("../controller/enviarMensagem.php", {
     method: "POST",
     body: formData,
   })
