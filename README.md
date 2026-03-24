@@ -94,7 +94,7 @@ SkillMap/
 ### 1. Clone o repositório
 
 ```bash
-git clone https://github.com/GustavoMessiasDeAzevedo/SkillMapWEB.git
+git clone https://github.com/GustavoMessiasDeAzevedo/SkillMapPHP.git
 ```
 
 ### 2. Configure o banco de dados
