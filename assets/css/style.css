@@ -1,101 +1,146 @@
 :root {
-    --primary-blue: #1e3a8a;    /* Azul Tecnológico */
-    --accent-orange: #f97316;   /* Laranja de Ação */
-    --accent-hover: #ea580c;    /* Laranja mais escuro */
-    --bg-light: #f8fafc;        /* Branco acinzentado */
-    --card-white: #ffffff;      /* Branco puro */
-    --text-dark: #0f172a;       /* Cinza quase preto */
+    --primary-blue: #1e3a8a;
+    --accent-orange: #f97316;
+    --accent-hover: #ea580c;
+    --bg-light: #f8fafc;
+    --card-white: #ffffff;
+    --text-dark: #0f172a;
+    --transition: all 0.3s ease;
 }
+
+/* =========================================
+   1. RESET GLOBAL
+========================================= */
+/* Aplica box-sizing, margem e padding zerados para todos os elementos */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* =========================================
+   2. ESTRUTURA BASE E ANIMAÇÕES
+========================================= */
 body {
+    font-family: sans-serif;
+    min-height: 100vh;
     background: linear-gradient(-45deg, #1e3a8a, #0f172a, #1e40af, #111827);
     background-size: 400% 400%;
     animation: gradientAnimation 15s ease infinite;
+}
+
+/* O body normal centraliza o login. O dashboard-body muda o fundo e o alinhamento */
+body:not(.dashboard-body) {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
-    margin: 0;
-    font-family: sans-serif;
 }
-@keyframes gradientAnimation{
-    0%{background-position: 0% 50%;}
-    50%{background-position: 100% 50%;}
-    100%{background-position: 0% 50%}
+
+.dashboard-body {
+    background-image: linear-gradient(-45deg, #0f172a, #1e1b4b, #1e293b, #020617);
 }
-.alerta-sucesso{
-    background-color: #dcfce7;
-    color: #166534;
-    padding: 10px;
-    border-radius: 6px;
+
+@keyframes gradientAnimation {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* =========================================
+   3. TIPOGRAFIA GENÉRICA
+========================================= */
+h1, h2 {
     text-align: center;
-    font-size: 0.85rem;
-    font-weight: 600;
-    margin-bottom: 20px;
-    border: 1px solid #bbf7d0;
-    animation: fadeIn 0.5 ease;
-}
-@keyframes fadeIn{
-    from{opacity: 0; transform: translateY(-10px);}
-    to{opacity: 1; transform: translateY(0);}
-}
-form {
-    background: transparent;
-    padding: 0;
-    box-shadow: none;
-    width: 100%;
-}
-.card{
-    background: rgba(255,255,255,0.95);
-    backdrop-filter: blur(10px);
-    padding: 40px;
-    border-radius: 16px;
-    box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
-    width: 100%;
-    max-width: 400px;
-    box-sizing: border-box;
-    border: 1px solid rgba(255,255,255,0.2);
-}
-header h1{
     color: var(--primary-blue);
-    text-align: center;
+    margin-bottom: 10px;
+}
+
+header h1 {
     margin-bottom: 5px;
     font-size: 1.8rem;
 }
-h1, h2 {
-    text-align: center;
-    color: #1e3a8a;
-    margin-bottom: 10px;
-}
-header p{
+
+header p {
     text-align: center;
     color: #64748b;
     margin-bottom: 30px;
     font-size: 0.9rem;
 }
-.form-group{
+
+/* =========================================
+   4. LAYOUT, CARDS E FORMS
+========================================= */
+.card {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    padding: 40px;
+    border-radius: 16px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    width: 100%;
+    max-width: 400px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+form {
+    width: 100%;
+    background: transparent;
+    box-shadow: none;
+}
+
+.form-group {
     margin-bottom: 18px;
 }
-label{
+
+label {
     display: block;
     font-size: 0.85rem;
     font-weight: 600;
     color: var(--text-dark);
     margin-bottom: 6px;
 }
-input{
+
+input {
     width: 100%;
     padding: 12px;
     border: 2px solid #e2e8f0;
     border-radius: 6px;
     font-size: 1rem;
-    box-sizing: border-box;
     transition: border-color 0.2s;
 }
-input:focus{
+
+input:focus {
     outline: none;
     border-color: var(--accent-orange);
 }
-.btn{
+
+.hint {
+    font-size: 0.75rem;
+    color: #94a3b8;
+    margin-top: 4px;
+    display: block;
+}
+
+/* =========================================
+   5. BOTÕES (Agrupados e Refatorados)
+========================================= */
+/* BASE DE TODOS OS BOTÕES: Tudo que é comum a eles fica aqui */
+.btn, 
+.btn-primary, 
+.btn-outline, 
+.btn-contact, 
+.btn-edit, 
+.btn-danger {
+    display: block;
     width: 100%;
     padding: 14px;
     border: none;
@@ -103,303 +148,84 @@ input:focus{
     font-size: 1rem;
     font-weight: 700;
     text-transform: uppercase;
-    cursor: pointer;
-    transition: all 0.2s;
-    margin-top: 10px;
-    display: block;
     text-align: center;
     text-decoration: none;
-    box-sizing: border-box;
+    cursor: pointer;
+    transition: var(--transition);
 }
-.btn-primary {
+
+/* Modificadores de Cor */
+.btn-primary, 
+.btn-contact, 
+.btn-edit {
     background-color: var(--accent-orange);
-    color: white;
+    color: white !important;
 }
-.btn-primary:hover {
+
+.btn-primary:hover, 
+.btn-contact:hover, 
+.btn-edit:hover {
     background-color: var(--accent-hover);
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(249, 115, 22, 0.3);
 }
+
 .btn-outline {
     background-color: transparent;
     color: var(--primary-blue);
     border: 2px solid var(--primary-blue);
 }
+
 .btn-outline:hover {
     background-color: var(--primary-blue);
     color: white;
 }
-.hint{
-    font-size: 0.75rem;
-    color: #94a3b8;
-    margin-top: 4px;
-    display: block;
-}
-body.dashboard-body{
-    display: block;
-    height: auto;
-    overflow-y: auto;
-}
-.dashboard-body{
-    background: linear-gradient(-45deg, #0f172a, #1e1b4b, #1e293b, #020617);
-    background-size: 400% 400%;
-    animation: gradientAnimation 15s ease infinite;
-}
-.navbar{
-    background: rgba(255,255,255,0.05);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(255,255,255,0.1);
-    padding: 15px;
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-}
-.header-content{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-.content-header {
-    text-align: center;
-    margin-bottom: 50px;
-    padding: 30px 20px;
-    background: rgba(30,58,138,0.2);
-    border-radius: 20px;
-    backdrop-filter: blur(5px);
-    display: flex;
-    flex-direction: column;
-    align-items: center; 
-    justify-content: center;
-}
-.content-header p {
-    color: var(--accent-orange);
-    font-size: 1rem;
-    max-width: 700px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    margin-top: 10px;
 
-    text-align: center;
-    width: 100%;
-    display: block;
-}
-.content-header h2 {
-    color: #ffffff;
-    font-size: 3rem;        
-    font-weight: 900;
-    text-transform: uppercase;
-    letter-spacing: -2px;    
-    margin-bottom: 5px; 
-    -webkit-text-fill-color: initial;
-    text-shadow: 0 4px 15px rgba(0, 0, 0, 0.5); 
-}
-.content-header h2::after {
-    content: '';
-    display: block;
-    width: 80px;
-    height: 6px;
-    background: var(--accent-orange);
-    margin: 10px auto;
-    border-radius: 3px;
-    box-shadow: 0 0 15px rgba(249, 115, 22, 0.4); 
-}
-.profile-btn{
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    text-decoration: none;
+.btn-danger {
+    background-color: #d9434e;
     color: white;
-    font-weight: 600;
-}
-.avatar-circle{
-    width: 40px;
-    height: 40px;
-    background: var(--accent-orange);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.2rem;
-    box-shadow: 0 0 15px rgba(255,107,0,0.4);
-}
-.search-box{
-    display: flex;
-    gap: 10px;
-}
-.search-box input{
-    padding: 10px 20px;
-    border-radius: 8px;
-    border: 1px solid rgba(255,255,255,0.2);
-    background: rgba(0,0,0,0.2);
-    color: white;
-    width: 300px;
-}
-.content-wrapper{
-    max-width: 1200px;
-    margin: 40px auto;
-    padding: 0 20px;
-}
-.user-grid{
-    display: grid ;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 25px;
-    padding: 20px;
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    align-items: start;
-}
-.user-card{
-    background: rgba(255,255,255,0.95) ;
-    border-radius: 12px;
-    padding: 20px;
-    transition: transform 0.3 ease, box-shadow 0.3 ease;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between; 
-    min-height: 320px;             
-    color: #0f172a;
-}
-.user-card:hover{
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-}
-/* A base da sua tag */
-.tag {
-    display: inline-block;
-    padding: 4px 12px;
-    background-color: #2c3e50; /* Um tom escuro que combine com seu fundo */
-    color: #ffffff;
-    border-radius: 15px; /* Deixa as pontas arredondadas */
-    text-decoration: none; /* Remove o sublinhado padrão de links */
-    font-size: 0.85rem;
-    transition: all 0.3s ease; /* Faz a mudança de cor ser suave */
-    margin: 2px;
-    border: 1px solid transparent;
 }
 
-/* O efeito quando o mouse passa por cima */
-.tag:hover {
-    background-color: #34495e; /* Fica levemente mais claro */
-    border-color: #f39c12; /* Adiciona uma bordinha da cor do seu botão "Buscar" */
-    transform: translateY(-2px); /* Dá um leve pulinho para cima */
-    color: #f39c12;
-}
-.user-card .btn-outline{
-    margin-top: auto;    
-    width: 100%;         
-    display: block;      
-    text-align: center;  
-    text-decoration: none ;
-    padding: 12px 0;  
-    box-sizing: border-box;
-}
-.user-card p {
-    font-size: 1.05rem; 
-    line-height: 1.5;
-    margin-bottom: 8px;
-    color: #475569;   
-}
-.user-card h3 {
-    font-size: 1.4rem;  
-    color: #1e3a8a;
-    margin-bottom: 12px;
-}
-.logout-area{
-    display: flex;
-    align-items: center;
-}
-.logout-link{
-    color: #ffffff;
-    text-decoration: none;
-    font-size: 0.85rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    padding: 8px 16px;
-    border-radius: 6px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    background: rgba(255, 255, 255, 0.05);     
-    transition: all 0.3s ease;
-}
-.logout-link:hover {
-    background: rgba(239, 68, 68, 0.1);        
-    border-color: var(--accent-orange);    
-    color: var(--accent-orange);               
-    box-shadow: 0 0 15px rgba(249, 115, 22, 0.2);
+.btn-danger:hover {
+    background-color: #c0392b;
     transform: translateY(-2px);
-}
-.profile-container {
-    background: #ffffff;
-    max-width: 600px;
-    margin: 50px auto;
-    padding: 40px;
-    border-radius: 28px;
-    box-shadow: 0 25px 40px rgba(0, 0, 0, 0.3);
-    position: relative;
-    overflow: hidden;
-    color: #0f172a; /* Azul escuro para o texto no fundo branco */
-    text-align: center;
-}
-.profile-container h2 {
-    color: #1e3a8a; /* Azul Marinho */
-    font-size: 1.8rem;
-    margin-top: 5px;
-}
-.profile-container .location {
-    color: #64748b;
-    font-size: 0.9rem;
-    margin-bottom: 25px;
-}
-.profile-container h3 {
-    color: #334155;
-    font-size: 1.2rem;
-    margin: 25px 0 10px;
-    border-top: 1px solid #f1f5f9;
-    padding-top: 20px;
-}
-.profile-details p {
-    font-size: 1.15rem;
-    color: #1e293b;
-    margin-bottom: 15px;
+    box-shadow: 0 5px 15px rgba(217, 67, 78, 0.3);
 }
 
-.profile-details strong {
-    color: #1e3a8a; 
-    font-weight: 700;
-}
-.profile-container h3 {
-    font-size: 1.3rem;
-    margin-top: 30px;
-    margin-bottom: 15px;
-    letter-spacing: -0.5px;
-}
-.skills-tag {
+/* Ajustes Específicos de Botões */
+.btn-edit, 
+.btn-danger {
+    border-radius: 12px;
+    max-width: 250px;
+    margin: 0 auto;
     display: flex;
-    flex-wrap: wrap;
+    align-items: center;
     justify-content: center;
-    gap: 8px;
-    margin-bottom: 30px;
+    font-size: 0.85rem;
 }
+
 .btn-contact {
-    display: block;
-    background: var(--accent-orange);
-    color: white !important;
-    text-decoration: none;
-    padding: 18px;
     border-radius: 15px;
-    font-weight: 700;
-    text-transform: uppercase;
     letter-spacing: 1px;
-    transition: all 0.3s ease;
+    padding: 18px;
 }
-.btn-contact:hover {
-    background: #ea580c;
-    transform: scale(1.02);
-    box-shadow: 0 10px 20px rgba(234, 88, 12, 0.3);
+
+.btn-home {
+    text-decoration: none;
+    color: #fff;
+    font-size: 14px;
+    padding: 6px 12px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+    transition: var(--transition);
 }
+
+.btn-home:hover {
+    border-color: var(--accent-orange);
+    color: var(--accent-orange);
+    background: rgba(243, 156, 18, 0.1);
+}
+
 .btn-back {
     color: #ffffff;
     text-decoration: none;
@@ -409,10 +235,261 @@ body.dashboard-body{
     gap: 8px;
     opacity: 0.8;
 }
+
 .btn-back:hover {
     opacity: 1;
     color: var(--accent-orange);
 }
+
+/* =========================================
+   6. NAVBAR E CABEÇALHO DO DASHBOARD
+========================================= */
+.navbar {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 15px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.user-menu {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    cursor: pointer;
+}
+
+.search-box {
+    display: flex;
+    gap: 10px;
+}
+
+.search-box input {
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(0, 0, 0, 0.2);
+    color: white;
+    width: 300px;
+}
+
+.logout-area {
+    display: flex;
+    align-items: center;
+}
+
+.logout-link {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 8px 16px;
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.05);
+    transition: var(--transition);
+}
+
+.logout-link:hover {
+    background: rgba(239, 68, 68, 0.1);
+    border-color: var(--accent-orange);
+    color: var(--accent-orange);
+    box-shadow: 0 0 15px rgba(249, 115, 22, 0.2);
+    transform: translateY(-2px);
+}
+
+.content-header {
+    background: rgba(30, 58, 138, 0.2);
+    border-radius: 20px;
+    backdrop-filter: blur(5px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin-bottom: 50px;
+    padding: 30px 20px;
+}
+
+.content-header h2 {
+    color: #fff;
+    font-size: 3rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: -2px;
+    margin-bottom: 5px;
+    text-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+}
+
+.content-header h2::after {
+    content: '';
+    display: block;
+    width: 80px;
+    height: 6px;
+    background: var(--accent-orange);
+    margin: 10px auto;
+    border-radius: 3px;
+    box-shadow: 0 0 15px rgba(249, 115, 22, 0.4);
+}
+
+.content-header p {
+    color: var(--accent-orange);
+    font-size: 1rem;
+    max-width: 700px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-top: 10px;
+    width: 100%;
+    display: block;
+}
+
+/* =========================================
+   7. GRID DE USUÁRIOS E TAGS
+========================================= */
+.content-wrapper {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.user-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 25px;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    align-items: start;
+}
+
+.user-card {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 12px;
+    padding: 20px;
+    transition: var(--transition);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 320px;
+    color: #0f172a;
+}
+
+.user-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+.user-card h3 {
+    font-size: 1.4rem;
+    color: var(--primary-blue);
+    margin-bottom: 12px;
+}
+
+.user-card p {
+    font-size: 1.05rem;
+    line-height: 1.5;
+    margin-bottom: 8px;
+    color: #475569;
+}
+
+.user-card .btn-outline {
+    margin-top: auto;
+    padding: 12px 0;
+}
+
+.tag {
+    display: inline-block;
+    padding: 4px 12px;
+    background-color: #2c3e50;
+    color: #fff;
+    border-radius: 15px;
+    text-decoration: none;
+    font-size: 0.85rem;
+    transition: var(--transition);
+    margin: 2px;
+    border: 1px solid transparent;
+}
+
+.tag:hover {
+    background-color: #34495e;
+    border-color: var(--accent-orange);
+    transform: translateY(-2px);
+    color: var(--accent-orange);
+}
+
+/* =========================================
+   8. PERFIL DO USUÁRIO
+========================================= */
+.profile-container {
+    background: #fff;
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 40px;
+    border-radius: 28px;
+    box-shadow: 0 25px 40px rgba(0, 0, 0, 0.3);
+    position: relative;
+    overflow: hidden;
+    color: #0f172a;
+    text-align: center;
+}
+
+.profile-container h2 {
+    color: var(--primary-blue);
+    font-size: 1.8rem;
+    margin-top: 5px;
+}
+
+.profile-container .location {
+    color: #64748b;
+    font-size: 0.9rem;
+    margin-bottom: 25px;
+}
+
+.profile-container h3 {
+    color: #334155;
+    font-size: 1.3rem;
+    margin: 25px 0 15px;
+    border-top: 1px solid #f1f5f9;
+    padding-top: 20px;
+    letter-spacing: -0.5px;
+}
+
+.profile-details p {
+    font-size: 1.15rem;
+    color: #1e293b;
+    margin-bottom: 15px;
+}
+
+.profile-details strong {
+    color: var(--primary-blue);
+    font-weight: 700;
+}
+
+.avatar-circle {
+    width: 40px;
+    height: 40px;
+    background: var(--accent-orange);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    box-shadow: 0 0 15px rgba(255, 107, 0, 0.4);
+    color: white;
+}
+
 .avatar-large {
     width: 100px;
     height: 100px;
@@ -427,145 +504,129 @@ body.dashboard-body{
     margin: 0 auto 20px;
     box-shadow: 0 10px 20px rgba(249, 115, 22, 0.4);
 }
+
 .profile-link {
-    color: #ffffff;
+    color: #fff;
     text-decoration: none;
     font-weight: 600;
     font-size: 0.9rem;
     margin-left: 10px;
     transition: color 0.3s;
 }
+
 .profile-link:hover {
     color: var(--accent-orange);
 }
-.user-menu {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    cursor: pointer;
-}
 
-.btn-home {
-    text-decoration: none; 
-    color: #ffffff; 
-    font-size: 14px;
-    padding: 6px 12px;
-    border: 1px solid rgba(255, 255, 255, 0.3); 
-    border-radius: 4px; 
-    transition: all 0.3s ease; 
-}
-
-.btn-home:hover {
-    border-color: #f39c12; 
-    color: #f39c12;
-    background-color: rgba(243, 156, 18, 0.1); 
-}
 .profile-actions-container {
     width: 100%;
     margin-top: 30px;
     display: flex;
-    justify-content: center; 
+    justify-content: center;
 }
+
 .button-group {
     display: flex;
     flex-direction: column;
-    align-items: center;    
-    gap: 12px;            
+    align-items: center;
+    gap: 12px;
     width: 100%;
 }
+
 .button-group form {
     margin: 0;
     width: 100%;
     display: flex;
     justify-content: center;
 }
-.btn-edit, .btn-danger {
-    width: 80%;            
-    max-width: 250px;       
-    padding: 14px;         
-    border-radius: 12px;    
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1px;
+
+.skills-tag {
     display: flex;
-    align-items: center;
+    flex-wrap: wrap;
     justify-content: center;
-    border: none;
-    cursor: pointer;
-    text-decoration: none !important;
-    transition: all 0.3s ease;
-    font-size: 0.85rem;
+    gap: 8px;
+    margin-bottom: 30px;
 }
-.btn-edit { 
-    background-color: var(--accent-orange); 
-    color: white !important; 
-}
-.btn-danger { 
-    background-color: #d9434e; 
-    color: white; 
-}
-.btn-edit:hover {
-    background: #ea580c;
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(234, 88, 12, 0.3);
-}
-.btn-danger:hover {
-    background-color: #c0392b;
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(217, 67, 78, 0.3);
-}
+
 .skills-grid label {
     padding: 5px;
     border-radius: 4px;
     transition: background 0.2s;
 }
+
 .skills-grid label:hover {
     background: #f1f5f9;
 }
-.alerta-flutuante {
-    position: fixed;   
-    top: 20px;         
-    right: 20px;      
-    z-index: 9999;     
-    background-color: white;
-    padding: 15px 25px;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+
+/* =========================================
+   9. ALERTAS E NOTIFICAÇÕES
+========================================= */
+/* Agrupamento base dos alertas */
+.alerta-sucesso, 
+.alerta-flutuante, 
+.alerta-cadastro {
+    padding: 10px 25px;
+    border-radius: 6px;
+    text-align: center;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+    animation: fadeIn 0.5s ease;
+}
+
+.alerta-sucesso {
+    background-color: #dcfce7;
+    color: #166534;
+    border: 1px solid #bbf7d0;
+}
+
+.alerta-flutuante, 
+.alerta-cadastro {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    background: #fff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     display: flex;
     align-items: center;
     gap: 10px;
 }
+
+.alerta-cadastro {
+    border-left: 5px solid #6366f1;
+    min-width: 300px;
+    padding: 15px 25px;
+}
+
 .alerta-content {
     display: flex;
     align-items: center;
     gap: 12px;
     color: #1e293b;
 }
+
 .alerta-content p {
     color: #1e293b !important;
     margin: 0;
     font-weight: 500;
 }
-.alerta-cadastro {
-    border-left: 5px solid #6366f1;
-    background: #ffffff;
-    position: fixed; 
-    top: 20px;
-    right: 20px;
-    z-index: 9999;
-    min-width: 300px;
-}
+
 .alerta-cadastro .progress-bar {
     background: #6366f1;
 }
+
 .alerta-erro {
     border-left: 5px solid #ef4444 !important;
 }
+
 .alerta-erro .progress-bar {
     background-color: #ef4444 !important;
 }
 
-/* Container do Chat no Perfil */
+/* =========================================
+   10. CHAT E STATUS ONLINE
+========================================= */
 .chat-wrapper {
     background: #fff;
     border: 1px solid #ddd;
@@ -586,7 +647,6 @@ body.dashboard-body{
     margin-bottom: 10px;
 }
 
-/* Estilo dos Balões */
 .mensagem {
     max-width: 80%;
     padding: 10px;
@@ -620,39 +680,40 @@ body.dashboard-body{
     border-radius: 5px;
 }
 
-/* Container do ícone */
 .notificacao-container {
-    position: relative; /* Isso é o 'âncora' pro badge não fugir */
+    position: relative;
     display: inline-block;
     padding: 5px;
 }
 
-/* O círculo vermelho */
 #badge-mensagens {
     position: absolute;
-    top: -5px;     
-    right: -10px;    
+    top: -5px;
+    right: -10px;
     background-color: #ff0000;
-    color: #ffffff;
-    
-    /* Tamanho fixo e circular */
+    color: #fff;
     width: 18px;
     height: 18px;
     border-radius: 50%;
-    
     display: flex !important;
-    align-items: center;       
-    justify-content: center;   
-    
-    /* Texto */
+    align-items: center;
+    justify-content: center;
     font-size: 11px;
     font-weight: bold;
-    line-height: 1;        
-    padding: 0;
-    margin: 0;
-    
-    /* Acabamento */
     border: 1.5px solid #1a1a2e;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
-    pointer-events: auto;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.status-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #555;
+    display: inline-block;
+    margin-left: 5px;
+}
+
+.status-dot.online {
+    background-color: #2ecc71;
+    box-shadow: 0 0 5px #2ecc71;
 }

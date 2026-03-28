@@ -25,6 +25,8 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function conectarSocket() {
+
+  if (socket && socket.readyState === WebSocket.OPEN) return;
   socket = new WebSocket("ws://localhost:8888");
 
   socket.onopen = () => {
@@ -41,15 +43,29 @@ function conectarSocket() {
 
   socket.onmessage = (event) => {
     const data = JSON.parse(event.data);
-    console.log("📩 Mensagem recebida via Socket:", data); // Isso é vital para testar!
-
     const chatBox = document.getElementById("chat-box");
-    // O destinatário de QUEM RECEBE é o remetente de QUEM ENVIOU
+    console.log("📩 Mensagem recebida via Socket:", data);
     const conversaAbertaCom = document.getElementById("destinatario_id")?.value;
+    if (data.tipo === "status_update") {
+      const bolinha = document.querySelector(
+        `.status-dot[data-user-id="${data.userId}"]`,
+      );
+
+      if (bolinha) {
+        if (data.online === true) {
+          bolinha.classList.add("online");
+          console.log(`🟢 Usuário ${data.userId} acabou de entrar!`);
+        } else {
+          bolinha.classList.remove("online");
+          console.log(`🔴 Usuário ${data.userId} saiu.`);
+        }
+      }
+      return;
+    }
 
     if (chatBox && String(data.remetente_id) === String(conversaAbertaCom)) {
       chatBox.innerHTML += `<div class="mensagem msg-outros"><p>${data.conteudo}</p></div>`;
-      chatBox.scrollTop = chatBox.scrollHeight;
+      scrollChat();
     } else {
       console.log(
         "🙈 Mensagem ignorada: você não está com o chat desse usuário aberto.",
@@ -87,11 +103,8 @@ function carregarMensagens() {
           msg.id_remetente == meuIdLogado ? "minha-msg" : "msg-outros";
         htmlContent += `<div class="mensagem ${classe}"><p>${msg.conteudo}</p></div>`;
       });
-
-      // Remova a verificação de "if (chatBox.innerHTML !== htmlContent)" por enquanto
-      // para testar se ele renderiza sempre
       chatBox.innerHTML = htmlContent;
-      chatBox.scrollTop = chatBox.scrollHeight;
+      scrollChat();
     });
 }
 
@@ -155,3 +168,9 @@ function verificarNotificacoes() {
       }
     });
 }
+
+function scrollChat() {
+  const chatContainer = document.getElementById("chat-box");
+  if (chatContainer) chatContainer.scrollTop = chatContainer.scrollHeight;
+}
+

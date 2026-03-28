@@ -3,6 +3,7 @@
 require_once __DIR__ . '/../Includes/PHPMailer/Exception.php';
 require_once __DIR__ . '/../Includes/PHPMailer/PHPMailer.php';
 require_once __DIR__ . '/../Includes/PHPMailer/SMTP.php';
+require_once __DIR__ . '/../config.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;

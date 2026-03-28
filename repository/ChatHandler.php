@@ -1,22 +1,24 @@
 <?php
 
 namespace MyApp;
+
 use Ratchet\MessageComponentInterface;
 use Ratchet\ConnectionInterface;
 use MensagemRepository;
 
 require_once __DIR__ . '/MensagemRepository.php';
 
-class ChatHandler implements MessageComponentInterface{
+class ChatHandler implements MessageComponentInterface
+{
     protected $clients;
     protected $users;
     private $repo;
 
     public function __construct($pdo)
     {
-       $this->clients = new \SplObjectStorage;
-       $this->users = [];
-       $this->repo = new MensagemRepository($pdo);
+        $this->clients = new \SplObjectStorage;
+        $this->users = [];
+        $this->repo = new MensagemRepository($pdo);
     }
 
     public function onOpen(ConnectionInterface $conn)
@@ -29,14 +31,38 @@ class ChatHandler implements MessageComponentInterface{
     {
         $data = json_decode($msg);
 
-        if(isset($data->type) && $data->type ==='login'){
+        if (isset($data->type) && $data->type === 'login') {
+            $this->users[$data->usuario_id] = $from;
+            echo "Usuário {$data->usuario_id} está online.\n";
+
+            $msgStatusEntrada = json_encode([
+                'tipo' => 'status_update',
+                'userId' => $data->usuario_id,
+                'online' => true
+            ]);
+            foreach ($this->clients as $client) {
+                $client->send($msgStatusEntrada);
+            }
+            foreach ($this->users as $idOnline => $connOnline) {
+                if ($idOnline != $data->usuario_id) {
+                    $from->send(json_encode([
+                        'tipo' => 'status_update',
+                        'userId' => $idOnline,
+                        'online' => true
+                    ]));
+                }
+            }
+            return;
+        }
+
+        if (isset($data->type) && $data->type === 'login') {
             $this->users[$data->usuario_id] = $from;
             echo "Usuário {$data->usuario_id} está online.\n";
             return;
         }
 
-        if(isset($data->destinatario_id)){
-            if(isset($this->users[$data->destinatario_id])){
+        if (isset($data->destinatario_id)) {
+            if (isset($this->users[$data->destinatario_id])) {
                 $this->users[$data->destinatario_id]->send(json_encode([
                     'remetente_id' => $data->remetente_id,
                     'conteudo' => $data->conteudo,
@@ -50,12 +76,13 @@ class ChatHandler implements MessageComponentInterface{
     {
         $this->clients->detach($conn);
         $idUsuario = array_search($conn, $this->users);
-        if($idUsuario !== false){
+        if ($idUsuario !== false) {
             unset($this->users[$idUsuario]);
             echo "Usuário $idUsuario desconectou.\n";
         }
     }
-    public function onError(ConnectionInterface $conn, \Exception $e) {
+    public function onError(ConnectionInterface $conn, \Exception $e)
+    {
         $conn->close();
     }
 }

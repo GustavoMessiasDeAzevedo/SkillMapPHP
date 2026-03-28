@@ -63,10 +63,12 @@ $usuarios = $usuarioRepository->listarUsuario($termo, $_SESSION['usuario_localiz
         </header>
 
         <div class="user-grid">
+            <input type="hidden" id="meu_id" value="<?php echo $_SESSION['usuario_id'] ?? ''; ?>">
             <?php foreach ($usuarios as $user): ?>
                 <div class="user-card">
                     <div class="card-header">
                         <h3><?php echo htmlspecialchars($user['nome']); ?></h3>
+                        <div class="status-dot" data-user-id="<?= $user['id'] ?>"></div>
                         <span class="location"><?php echo htmlspecialchars($user['localizacao'] ?? 'Brasil'); ?></span>
                     </div>
 
